@@ -57,9 +57,14 @@ for file in all_csv_files:
     exp = clean_my_file(file)
     data = pd.concat( (data,  exp), sort=False )
 
-print(  data.head(10).to_string()  )
+print(  data.head(3).T.to_string()  )
+
+# keep data 
+f1 = data['Conc(mM)'].apply(lambda x: np.round(x,1))     > 5
+f2 = data['SatPower(uT)'].apply(lambda x: np.round(x,1)) > 0.5
+f3 = data['SatTime(ms)'].apply(lambda x: np.round(x,1))  > 500
 
 # Save data
 path = '../clean_data/acido_CEST_MRI_Iopamidol.parquet.gzip'
-data.to_parquet(path, compression='gzip')
+data[f3&f2&f1].to_parquet(path, compression='gzip')
 print(f'Done saving onto {path}')
