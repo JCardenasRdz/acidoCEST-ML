@@ -9,6 +9,13 @@ import pandas as pd
 
 # functions
 def clean_my_file(file_name):
+    """[summary]
+
+    :param file_name: [description]
+    :type file_name: [type]
+    :return: [description]
+    :rtype: [type]
+    """
     
     # read csv
     exp = pd.read_csv(file_name)
