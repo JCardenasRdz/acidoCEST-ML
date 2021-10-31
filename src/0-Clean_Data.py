@@ -64,12 +64,19 @@ for file in all_csv_files:
     exp = clean_my_file(file)
     data = pd.concat( (data,  exp), sort=False )
 
-print(  data.head(3).T.to_string()  )
+print(f'shape of the original data: {data.shape}')
+
+# round data
+data['pH']     = data['pH'].apply(lambda x: np.round(x,1)) 
+data['Conc(mM)']     = data['Conc(mM)'].apply(lambda x: np.round(x,1)) 
+data['SatPower(uT)'] = data['SatPower(uT)'].apply(lambda x: np.round(x,1)) 
+data['SatTime(ms)']  = data['SatTime(ms)'].apply(lambda x: np.round(x,1)) 
+
 
 # keep data 
-f1 = data['Conc(mM)'].apply(lambda x: np.round(x,1))     > 5
-f2 = data['SatPower(uT)'].apply(lambda x: np.round(x,1)) > 0.5
-f3 = data['SatTime(ms)'].apply(lambda x: np.round(x,1))  > 500
+f1 = data['Conc(mM)']     > 5
+f2 = data['SatPower(uT)'] > 0.5
+f3 = data['SatTime(ms)']  > 500
 
 # Save data
 path = '../clean_data/acido_CEST_MRI_Iopamidol.parquet.gzip'
